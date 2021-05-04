@@ -2,6 +2,7 @@ import watchdog.observers
 import watchdog.events
 import subprocess
 import os
+import logging
 
 class Handler(watchdog.events.PatternMatchingEventHandler):
     def __init__(self):

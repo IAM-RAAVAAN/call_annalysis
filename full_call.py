@@ -14,14 +14,20 @@ print(args.fc)
 
 
 
-df=pd.read_csv(r'/home/karn/Downloads/work_dev/file/call_annalysis/dump/TRACES_20210323140137.csv')
+df=pd.read_csv(r'/home/karn/Downloads/work_dev/file/call_annalysis/dump/TRACES_20210224150613.csv')
 df.reset_index(drop=True)
 
 call_id=df[df['sip.Call-ID']==args.fc]
 call_id
 
 def find_alice(i):
-    return df[df['sip.to.tag'].str.match(pat = i+'\S*', na=False)]
+    alice=df[df['sip.to.tag'].str.match(pat = i+'\S*', na=False)]
+    j=alice['sip.Call-ID'].unique()
+    for i in j:
+        pass
+    full_alice=df[df['sip.Call-ID']==i]
+    return full_alice
+    #return df[df['sip.to.tag'].str.match(pat = i+'\S*', na=False)]
 def find_bob(i):
     return df[df['sip.from.tag'].str.match(pat = i+'\S*', na=False)]
 
@@ -69,7 +75,7 @@ for i in call_id['sip.Call-ID']:
 tag=who_called(i)
 if tag[0] == 'bob':
     #find_alice and find_bob returns dataframe 
-    print(find_alice(tag[1]))
+    df=find_alice(tag[1])
 
 else :
     print(tag)
@@ -93,4 +99,4 @@ print(os.getcwd())
 os.chdir('/home/karn/Downloads/work_dev/file/call_annalysis/dump')
      
 print('tshark -r TRACES_20210323140137.pcap -Y "frame.number in {}" -w new.pcap'.format(k))
-subprocess.check_output('tshark -r TRACES_20210323140137.pcap -Y "frame.number in {}" -w new.pcap'.format(k),shell=True)
+subprocess.check_output('tshark -r TRACES_20210224150613.pcap -Y "frame.number in {}" -w new.pcap'.format(k),shell=True)
